@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adan Hospital · OPD टोकन</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#F3F8F7;--card:#FFFFFF;--ink:#12303A;--mute:#5B7480;--teal:#0E7C7B;--tealink:#FFFFFF;--amber:#E8A33D;--line:#D5E3E1;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1C21;--card:#14282F;--ink:#E6F1F0;--mute:#8FA9B0;--teal:#3CB5B1;--tealink:#062321;--amber:#F0B65A;--line:#24404A}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari",system-ui,sans-serif;line-height:1.5;max-width:520px;margin:0 auto;padding:16px}
+.brand{display:flex;align-items:center;gap:12px;margin:4px 0 14px}
+.brand svg{width:48px;height:48px;flex:none}
+.brand img{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none}
+.brand h1{font-size:21px;margin:0;font-weight:800;line-height:1.2}
+.brand span{font-size:13px;color:var(--mute)}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs button{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600}
+.tabs button.on{background:var(--teal);color:var(--tealink);border-color:var(--teal)}
+.now{background:var(--teal);color:var(--tealink);border-radius:18px;padding:18px;text-align:center;margin-bottom:14px}
+.now small{display:block;opacity:.85}
+.now b{font-size:64px;line-height:1.1;font-weight:800}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:14px;color:var(--mute);margin:8px 0 4px}
+input,select{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.btn{width:100%;margin-top:12px;padding:14px;border:0;border-radius:12px;background:var(--amber);color:#2A1B00;font:inherit;font-weight:800;font-size:16px}
+.btn:disabled{opacity:.45}
+.btn.alt{background:var(--teal);color:var(--tealink)}
+.btn.ghost{background:transparent;color:var(--mute);border:1.5px solid var(--line);font-weight:600}
+.mine{border:2px solid var(--amber)}
+.mine .num{font-size:44px;font-weight:800}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.mute{color:var(--mute);font-size:14px}
+.ok{color:var(--teal);font-weight:600}
+.no{color:var(--amber);font-weight:600}
+.days{display:flex;flex-wrap:wrap;gap:6px}
+.days label{display:flex;align-items:center;gap:4px;margin:0;padding:6px 10px;border:1.5px solid var(--line);border-radius:999px;color:var(--ink)}
+.days input{width:auto;padding:0}
+.two{display:flex;gap:8px}
+.trow{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px;margin-bottom:6px}
+.trow input{padding:10px;font-size:14px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;border:0;border-radius:999px;padding:14px 18px;background:var(--amber);color:#2A1B00;font:inherit;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.sheet{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.panel{background:var(--bg);width:100%;max-width:520px;max-height:85%;display:flex;flex-direction:column;border-radius:18px 18px 0 0;padding:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+.msgs{overflow-y:auto;flex:1;min-height:120px;margin:8px 0}
+.b{max-width:90%;padding:10px 12px;border-radius:14px;margin-bottom:8px;white-space:pre-line;font-size:15px}
+.b.bot{background:var(--card);border:1px solid var(--line)}
+.b.me{background:var(--teal);color:var(--tealink);margin-left:auto}
+.b.em{background:#B3261E;color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chips button,.acts a{padding:8px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px;text-decoration:none}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.gate{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:18px}
+.chips button.on{background:var(--teal);color:var(--tealink);border-color:var(--teal)}
+.send{display:flex;gap:8px}
+.send input{flex:1}
+.send button{padding:0 16px;border:0;border-radius:10px;background:var(--teal);color:var(--tealink);font:inherit;font-weight:800}
+#ads{margin-bottom:14px}
+.adtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:14px;scrollbar-width:none}
+.adtrack::-webkit-scrollbar{display:none}
+.adslide{flex:0 0 100%;scroll-snap-align:center;position:relative;aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.adslide img,.adslide iframe{width:100%;height:100%;object-fit:contain;border:0;display:block}
+.adplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;color:#fff;background:rgba(0,0,0,.25)}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="brand">
+  <svg id="bsvg" viewBox="0 0 48 48" role="img" aria-label="Adan Hospital logo"><path d="M6 42V22C6 12 14 5 24 5s18 7 18 17v20z" fill="#0E7C7B"/><path d="M21 15h6v7h7v6h-7v7h-6v-7h-7v-6h7z" fill="#FFFFFF"/><rect x="6" y="40" width="36" height="3" fill="#E8A33D"/></svg><img id="bimg" class="hide" alt="logo">
+  <div><h1 id="bn">Adan Hospital</h1><span>OPD टोकन और कतार</span></div>
+</div>
+<div id="ads" class="hide"></div>
+<div class="tabs">
+  <button id="tp" class="on">मरीज़</button>
+  <button id="tr">रिसेप्शन</button>
+  <button id="tx">रिपोर्ट</button>
+  <button id="ts">दरें</button>
+</div>
+<div id="qwrap">
+<label for="doc">डॉक्टर चुनें</label>
+<select id="doc"></select>
+<div id="sched" class="mute" style="margin:6px 0 12px"></div>
+<div class="now"><small>अभी चल रहा टोकन</small><b id="serving">—</b></div>
+</div>
+
+<section id="patient">
+  <div id="mine" class="card mine hide"></div>
+  <div id="form" class="card">
+    <label for="nm">मरीज़ का नाम</label>
+    <input id="nm" autocomplete="name" maxlength="50">
+    <label for="ph">फ़ोन नंबर</label>
+    <input id="ph" type="tel" inputmode="numeric" maxlength="10">
+    <button class="btn" id="get">टोकन लें</button>
+  </div>
+</section>
+
+<section id="desk" class="hide">
+  <div id="login" class="card">
+    <b>रिसेप्शन लॉगिन</b>
+    <label for="em">ईमेल</label>
+    <input id="em" type="email" autocomplete="username">
+    <label for="pw">पासवर्ड</label>
+    <input id="pw" type="password" autocomplete="current-password">
+    <button class="btn alt" id="go">लॉगिन करें</button>
+    <div id="lerr" class="no" style="margin-top:8px"></div>
+  </div>
+  <div id="staff" class="hide">
+    <button class="btn alt" id="next">अगला मरीज़ बुलाएँ</button>
+    <div class="card" style="margin-top:12px"><b>इंतज़ार में</b><div id="list"></div></div>
+    <button class="btn ghost" id="reset">इस डॉक्टर की कतार खाली करें</button>
+
+    <div class="card" style="margin-top:16px">
+      <b id="dform">नया डॉक्टर जोड़ें</b>
+      <label for="dn">डॉक्टर का नाम</label>
+      <input id="dn" placeholder="जैसे: डॉ. अनीता तिर्की">
+      <label for="dd">विभाग</label>
+      <input id="dd" placeholder="जैसे: स्त्री रोग">
+      <label>किन दिनों बैठते हैं</label>
+      <div class="days" id="dd7"></div>
+      <div class="two">
+        <div style="flex:1"><label for="hf">शुरू (घंटा, 0-23)</label><input id="hf" type="number" min="0" max="23" value="10"></div>
+        <div style="flex:1"><label for="ht">खत्म (घंटा, 1-24)</label><input id="ht" type="number" min="1" max="24" value="18"></div>
+      </div>
+      <button class="btn alt" id="addDoc">डॉक्टर जोड़ें</button>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <b>मरीज़ की रिपोर्ट डालें</b>
+      <label for="rn">मरीज़ का नाम</label>
+      <input id="rn" maxlength="50">
+      <label for="rp">फ़ोन नंबर</label>
+      <input id="rp" type="tel" inputmode="numeric" maxlength="10">
+      <label>जाँच के नतीजे</label>
+      <div id="trows"></div><datalist id="tl"></datalist>
+      <button class="btn ghost" id="addRow" type="button">+ जाँच जोड़ें</button>
+      <label for="rf">रिपोर्ट की फ़ोटो (चाहें तो)</label>
+      <input id="rf" type="file" accept="image/*">
+      <button class="btn alt" id="rsave">रिपोर्ट सेव करें</button>
+      <div id="rdone"></div>
+    </div>
+    <div class="card"><b>हाल की रिपोर्टें</b><div id="rlist"></div></div>
+    <div class="card" style="margin-top:16px">
+      <b>विज्ञापन / सूचना (मरीज़ों को सबसे ऊपर दिखेगा)</b>
+      <label for="af">फ़ोटो चुनें</label>
+      <input id="af" type="file" accept="image/*">
+      <label for="ay">या YouTube वीडियो का लिंक</label>
+      <input id="ay" type="url" placeholder="https://youtu.be/...">
+      <label for="al">टैप करने पर खुलने वाला लिंक (चाहें तो)</label>
+      <input id="al" type="url" placeholder="https://...">
+      <button class="btn alt" id="aadd">जोड़ें</button>
+      <div id="alist" style="margin-top:8px"></div>
+    </div>
+    <div class="card" style="margin-top:16px"><b>डॉक्टरों की सूची</b><div id="dlist"></div><button class="btn ghost" id="addDept">+ लैब और X-ray का टोकन भी जोड़ें</button></div>
+    <div class="card">
+      <b>अस्पताल की जानकारी</b>
+      <label for="hname">अस्पताल का नाम</label>
+      <input id="hname" maxlength="50">
+      <label for="hph">फ़ोन / WhatsApp नंबर (10 अंक)</label>
+      <input id="hph" type="tel" inputmode="numeric" maxlength="10">
+      <label for="hadr">पता</label>
+      <input id="hadr" maxlength="120">
+      <label for="hlogo">लोगो (फ़ोटो)</label>
+      <input id="hlogo" type="file" accept="image/*">
+      <button class="btn alt" id="hsave">सेव करें</button>
+      <button class="btn ghost" id="hlx">लोगो हटाएँ</button>
+    </div>
+    <div class="card">
+      <b>सेवाएँ और दरें (लैब, X-ray आदि)</b>
+      <label for="sc">श्रेणी</label>
+      <select id="sc"><option value="lab">लैब जाँच</option><option value="xray">X-ray</option><option value="consult">डॉक्टर फ़ीस</option><option value="other">अन्य</option></select>
+      <label for="sn">सेवा का नाम</label>
+      <input id="sn" maxlength="60">
+      <label for="sp">दर (₹)</label>
+      <input id="sp" type="number" inputmode="numeric" min="0">
+      <button class="btn alt" id="sadd">जोड़ें</button>
+      <button class="btn ghost" id="sseed">आम लैब और X-ray जाँचों के नाम जोड़ें (दर आप भरें)</button>
+      <div id="slist" style="margin-top:8px"></div>
+    </div>
+    <div class="card"><b>पुराना डेटा</b><div class="mute">पिछले दिनों के टोकन से नाम और फ़ोन नंबर मिटाएँ।</div><button class="btn ghost" id="clean">पुराने टोकन साफ़ करें</button></div>
+    <div class="card">
+      <b>स्टाफ़ जोड़ें (इस अस्पताल के लिए)</b>
+      <label for="se">ईमेल</label>
+      <input id="se" type="email" autocapitalize="none">
+      <label for="spw">पासवर्ड (कम से कम 6 अक्षर)</label>
+      <input id="spw" type="text" autocomplete="off">
+      <button class="btn alt" id="sjoin">स्टाफ़ जोड़ें</button>
+    </div>
+    <div class="card hide" id="adm">
+      <b>नया अस्पताल जोड़ें (एडमिन)</b>
+      <label for="hi">अस्पताल की आईडी (अंग्रेज़ी छोटे अक्षर या अंक)</label>
+      <input id="hi" maxlength="20" autocapitalize="none">
+      <label for="hn">अस्पताल का नाम</label>
+      <input id="hn" maxlength="50">
+      <label for="he">उनके रिसेप्शन का ईमेल</label>
+      <input id="he" type="email" autocapitalize="none">
+      <label for="hp">पासवर्ड (कम से कम 6 अक्षर)</label>
+      <input id="hp" type="text" autocomplete="off">
+      <button class="btn alt" id="hadd">अस्पताल जोड़ें</button>
+      <div id="hlist" style="margin-top:8px"></div>
+    </div>
+    <button class="btn ghost" id="out">लॉगआउट</button>
+  </div>
+</section>
+
+<section id="rep" class="hide">
+  <div class="card">
+    <b>अपनी रिपोर्ट देखें</b>
+    <label for="vp">फ़ोन नंबर</label>
+    <input id="vp" type="tel" inputmode="numeric" maxlength="10">
+    <label for="vc">रिपोर्ट कोड (8 अक्षर)</label>
+    <input id="vc" maxlength="8" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:2px">
+    <button class="btn" id="rview">रिपोर्ट देखें</button>
+  </div>
+  <div id="rout"></div>
+</section>
+
+<section id="sv" class="hide">
+  <div class="card">
+    <b>सेवाएँ और दरें</b>
+    <input id="sq" placeholder="जाँच या X-ray खोजिए" style="margin-top:8px">
+    <div class="chips" id="scat" style="margin-top:8px"></div>
+    <div id="svlist"></div>
+    <div class="mute" style="margin-top:8px">दरें बदल सकती हैं। पक्की दर के लिए रिसेप्शन से पूछिए।</div>
+  </div>
+</section>
+<div id="gate" class="gate hide"><b id="gtext"></b></div>
+<div style="height:80px"></div>
+<button class="fab" id="helpBtn">💬 मदद</button>
+<div class="sheet hide" id="help">
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center"><b>मदद सहायक</b><button id="hx" style="background:none;border:0;font-size:22px;color:var(--ink)">✕</button></div>
+    <div class="mute">यह स्वचालित सहायक है। यह बीमारी की सलाह या दवा नहीं बताता।</div>
+    <div class="msgs" id="hmsg"></div>
+    <div class="chips" id="hchips"></div>
+    <div class="send"><input id="hin" placeholder="अपना सवाल लिखिए" maxlength="120"><button id="hgo">भेजें</button></div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import {getFirestore,doc as fdoc,doc as fdocA,collection,collection as collA,query,orderBy,limit,getDoc,deleteDoc,onSnapshot,runTransaction,setDoc,updateDoc,getDocs,writeBatch} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+
+const CFG={
+  apiKey:"AIzaSyBe9lc1cvCd8gOF-ANoZb7s7c4LXZ0wIOI",
+  authDomain:"adan-hospital.firebaseapp.com",
+  projectId:"adan-hospital",
+  storageBucket:"adan-hospital.firebasestorage.app",
+  messagingSenderId:"47022081665",
+  appId:"1:47022081665:web:4ea699df85177954922f80"
+};const app=initializeApp(CFG);
+const HID0=(new URLSearchParams(location.search).get("h")||"").toLowerCase().replace(/[^a-z0-9]/g,""),HID=HID0=="adan"?"":HID0,B=HID?["hospitals",HID]:[];
+const db=getFirestore(app),auth=getAuth(app);
+const $=id=>document.getElementById(id);
+const DEFNAME=HID?"अस्पताल":"Adan Hospital";
+if(HID){$("bn").textContent=DEFNAME;document.title=DEFNAME+" · OPD टोकन"}
+const DN=["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"];
+const DEF=[{n:"डॉ. सैमुअल लकड़ा",d:"हड्डी रोग और जोड़ प्रत्यारोपण सर्जन",days:[0,2],f:10,t:18},
+           {n:"डॉ. गुलशन कुमार",d:"जनरल फ़िज़िशियन",days:[0,1,2,3,4,5,6],f:10,t:18}];
+let docs=[],cur=0,Q={n:0,s:0},pts=[],user=null,unQ=null,unP=null;
+function qid(){return docs[cur]?docs[cur].id:"d0"}
+const esc=s=>{const e=document.createElement("div");e.textContent=s;return e.innerHTML};
+const hr=h=>(h<12?"सुबह ":h<16?"दोपहर ":"शाम ")+(h>12?h-12:h)+" बजे";
+const daysTxt=a=>a.length==7?"हफ़्ते के सातों दिन":a.map(i=>DN[i]).join(", ");
+const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+function mineGet(){try{const m=JSON.parse(localStorage.getItem("adanMine"+HID)||"{}")[qid()];return m&&m.day==today()?m.t:null}catch(e){return null}}
+function mineSet(t){try{const o=JSON.parse(localStorage.getItem("adanMine"+HID)||"{}");o[qid()]={t:t,day:today()};localStorage.setItem("adanMine"+HID,JSON.stringify(o))}catch(e){}}
+
+function fillDocs(){
+  $("doc").innerHTML="";
+  docs.forEach((x,i)=>{const o=document.createElement("option");o.value=i;o.textContent=x.n+" · "+x.d;$("doc").appendChild(o)});
+  if(cur>=docs.length)cur=0;$("doc").value=cur;
+}
+function draw(){
+  const D=docs[cur];
+  if(!D){$("sched").textContent="डॉक्टरों की सूची लोड हो रही है…";$("get").disabled=true;return}
+  const here=D.days.includes(new Date().getDay());
+  $("sched").innerHTML=daysTxt(D.days)+" · "+hr(D.f)+" से "+hr(D.t)+" तक<br>"+(here?'<span class="ok">आज उपलब्ध</span>':'<span class="no">आज नहीं बैठते</span>');
+  $("serving").textContent=Q.s||"—";
+  let mt=mineGet();if(mt&&mt>Q.n)mt=null;
+  const m=$("mine");
+  if(mt){
+    const ahead=Math.max(0,mt-Q.s-1),done=Q.s>=mt;
+    m.classList.remove("hide");$("form").classList.add("hide");
+    m.innerHTML='<div class="mute">आपका टोकन</div><div class="num">'+mt+'</div>'+(done?'<div>आपकी बारी आ गई है, कृपया डॉक्टर के पास जाएँ।</div>':'<div>आपसे पहले '+ahead+' मरीज़ हैं।</div><div class="mute">लगभग '+(ahead*5)+' मिनट का इंतज़ार</div>');
+  }else{m.classList.add("hide");$("form").classList.remove("hide")}
+  $("get").disabled=!here;$("get").textContent=here?"टोकन लें":"आज इनके टोकन बंद हैं";
+  const w=pts.filter(x=>x.t>Q.s);
+  $("list").innerHTML=w.length?w.map(x=>'<div class="row"><span>टोकन '+x.t+' · '+esc(x.name)+'</span><span class="mute">'+esc(x.ph||"")+'</span></div>').join(""):'<div class="mute">अभी कोई इंतज़ार में नहीं है।</div>';
+}
+function watchQueue(){
+  if(unQ)unQ();if(unP){unP();unP=null}
+  Q={n:0,s:0};pts=[];draw();
+  unQ=onSnapshot(fdoc(db,...B,"q",qid()),s=>{Q=s.exists()?s.data():{n:0,s:0};if(Q.day!==today())Q={n:0,s:0,day:today()};draw()});
+  if(user)unP=onSnapshot(query(collection(db,...B,"q",qid(),"pt"),orderBy("t")),s=>{pts=s.docs.map(d=>d.data()).filter(x=>x.day===today());draw()});
+}
+onSnapshot(fdoc(db,...B,"config","doctors"),s=>{
+  docs=s.exists()?s.data().list.map((x,i)=>({...x,id:x.id||"d"+i})):[];fillDocs();watchQueue();renderDocList();
+  if(!s.exists()&&user&&!HID)setDoc(fdoc(db,...B,"config","doctors"),{list:DEF});
+});
+$("doc").onchange=()=>{cur=+$("doc").value;watchQueue()};
+
+$("get").onclick=async()=>{
+  const n=$("nm").value.trim(),p=$("ph").value.trim();
+  if(!n){$("nm").focus();return}
+  if(!/^\d{10}$/.test(p)){$("ph").focus();alert("10 अंकों का फ़ोन नंबर लिखें");return}
+  $("get").disabled=true;
+  try{
+    const ref=fdoc(db,...B,"q",qid());
+    const t=await runTransaction(db,async tx=>{
+      const r=await tx.get(ref),ok=r.exists()&&r.data().day===today(),n0=ok?r.data().n:0,s0=ok?r.data().s:0,nt=n0+1;
+      tx.set(ref,{n:nt,s:s0,day:today()});
+      tx.set(fdoc(db,...B,"q",qid(),"pt",today()+"_"+nt),{t:nt,name:n,ph:p,day:today()});
+      return nt;
+    });
+    mineSet(t);$("nm").value="";$("ph").value="";
+  }catch(e){alert("टोकन नहीं बन पाया। इंटरनेट देखकर दोबारा कोशिश करें।")}
+  draw();
+};
+
+onAuthStateChanged(auth,async u=>{
+  let lvl=0;
+  if(u){lvl=await access(u);if(!lvl){alert("इस अस्पताल के स्टाफ़ में आपका नाम नहीं है।");await signOut(auth);return}}
+  isAdm=lvl==2;user=u;
+  $("login").classList.toggle("hide",!!u);$("staff").classList.toggle("hide",!u);$("adm").classList.toggle("hide",!isAdm);
+  if(u&&!docs.length&&!HID)setDoc(fdoc(db,...B,"config","doctors"),{list:DEF}).catch(()=>{});
+  if(unH){unH();unH=null}
+  if(isAdm)unH=onSnapshot(collA(db,"hospitals"),drawHosp,()=>{});
+  watchQueue();
+});
+$("go").onclick=async()=>{
+  $("lerr").textContent="";
+  try{await signInWithEmailAndPassword(auth,$("em").value.trim(),$("pw").value);$("pw").value=""}
+  catch(e){$("lerr").textContent="ईमेल या पासवर्ड गलत है।"}
+};
+$("out").onclick=()=>signOut(auth);
+$("next").onclick=()=>{if(Q.s<Q.n)updateDoc(fdoc(db,...B,"q",qid()),{s:Q.s+1}).catch(()=>alert("नहीं हो पाया"))};
+$("reset").onclick=async()=>{
+  if(!confirm("इस डॉक्टर की पूरी कतार खाली करें?"))return;
+  try{
+    const snap=await getDocs(collection(db,...B,"q",qid(),"pt")),b=writeBatch(db);
+    snap.forEach(d=>b.delete(d.ref));b.set(fdoc(db,...B,"q",qid()),{n:0,s:0,day:today()});await b.commit();
+  }catch(e){alert("नहीं हो पाया")}
+};
+DN.forEach((x,i)=>{const l=document.createElement("label");l.innerHTML='<input type="checkbox" value="'+i+'">'+x;$("dd7").appendChild(l)});
+$("addDoc").onclick=async()=>{
+  const n=$("dn").value.trim(),dp=$("dd").value.trim(),f=+$("hf").value,t=+$("ht").value;
+  const ds=[...$("dd7").querySelectorAll("input:checked")].map(c=>+c.value);
+  if(!n){$("dn").focus();return}
+  if(!ds.length){alert("कम से कम एक दिन चुनें");return}
+  if(!(t>f)){alert("खत्म होने का समय शुरू से बाद का हो");return}
+  try{
+    const item={n:n,d:dp||"सामान्य",days:ds,f:f,t:t};
+    const list=editIdx>=0?docs.map((x,i)=>i==editIdx?{...item,id:x.id}:x):[...docs,{...item,id:"d"+Date.now().toString(36)}];
+    await setDoc(fdoc(db,...B,"config","doctors"),{list:list});resetDocForm();
+    $("dn").value="";$("dd").value="";$("dd7").querySelectorAll("input").forEach(c=>c.checked=false);
+    alert("डॉक्टर की जानकारी सेव हो गई");
+  }catch(e){alert("नहीं हो पाया")}
+};
+const EMG=/इमरजेंसी|आपातकाल|emergency|सीने|chest|साँस|सांस|बेहोश|unconscious|खून|bleeding|accident|एक्सीडेंट|दुर्घटना|दौरा|लकवा|stroke|heart attack|हार्ट अटैक|जहर|poison|साँप|सांप|जल गया|जला/i;
+const SYM=/बुखार|fever|दर्द|pain|खाँसी|खांसी|cough|दवा|medicine|उल्टी|दस्त|चक्कर|सर्दी|जुकाम|कमजोरी/i;
+const BONE=/हड्डी|जोड़|घुटन|कमर|फ्रैक्चर|fracture|knee|bone|joint/i;
+function bub(t,c){const b=document.createElement("div");b.className="b "+c;b.textContent=t;$("hmsg").appendChild(b);$("hmsg").scrollTop=1e9;return b}
+function acts(b,em){
+  const hp=String(H.phone||"").replace(/\D/g,""),w=document.createElement("div");w.className="acts";
+  const mk=(h,t,blank)=>{const a=document.createElement("a");a.href=h;a.textContent=t;if(blank){a.target="_blank";a.rel="noopener"}w.appendChild(a)};
+  if(em)mk("tel:108","📞 एम्बुलेंस 108");
+  if(hp){mk("tel:+91"+hp,"📞 अस्पताल को कॉल");mk("https://wa.me/91"+hp,"WhatsApp",true)}
+  if(w.children.length)b.appendChild(w);
+}
+function docsTxt(){return docs.length?docs.map(x=>x.n+" ("+x.d+")\n"+daysTxt(x.days)+", "+hr(x.f)+" से "+hr(x.t)+" तक").join("\n\n"):"डॉक्टरों की सूची अभी उपलब्ध नहीं है।"}
+function reply(q){
+  const t=q.toLowerCase().replace(/\u093C/g,"");
+  if(EMG.test(t)){acts(bub("⚠️ यह इमरजेंसी हो सकती है। देर न करें: तुरंत अस्पताल आइए या एम्बुलेंस के लिए 108 पर कॉल कीजिए।","bot em"),true);return}
+  if(/दर|रेट|rate|कीमत|फीस|price|charge|चार्ज|खर्च|कितन|पैसे|रुपए|रुपये|cost/.test(t)){
+    const stop=/^(दर|रेट|rate|कीमत|फीस|price|charge|चार्ज|खर्च|कितना|कितने|कितनी|क्या|what|how|much|cost|पैसे|लगेगा|लगेंगे|हैं|है)$/;
+    const ws=t.replace(/[?!.,]/g," ").split(/\s+/).filter(w=>w.length>2&&!stop.test(w));
+    const hit=SV.filter(x=>{const nm=x.n.toLowerCase().replace(/\u093C/g,"");return ws.some(w=>nm.includes(w))}).slice(0,6);
+    bub(hit.length?hit.map(x=>x.n+": "+priceTxt(x)).join("\n")+"\n\nपूरी सूची के लिए 'दरें' टैब खोलिए।":"सभी जाँच, X-ray और फ़ीस की दरें 'दरें' टैब में हैं। उसे खोलकर नाम खोजिए। पक्की दर के लिए रिसेप्शन से पूछिए।","bot");
+    return;
+  }
+  if(/रिपोर्ट|report|जाँच|जांच|test|रिजल्ट|नतीजा|कोड/.test(t)){bub("रिपोर्ट देखने के लिए ऊपर 'रिपोर्ट' टैब खोलिए, अपना फ़ोन नंबर और अस्पताल से मिला 8 अक्षर का रिपोर्ट कोड डालिए। कोड न हो तो रिसेप्शन से पूछिए।","bot");return}
+  if(/टोकन|token|नंबर लग|लाइन|कतार|क्यू|queue|अपॉइंट|appointment|बुक/.test(t)){bub("टोकन लेने के लिए 'मरीज़' टैब में डॉक्टर चुनिए, अपना नाम और 10 अंकों का फ़ोन नंबर डालकर 'टोकन लें' दबाइए। फिर दिखेगा कि आपसे पहले कितने मरीज़ हैं। अभी app से उसी दिन का टोकन मिलता है।","bot");return}
+  if(SYM.test(t)||BONE.test(t)){
+    let m="मैं डॉक्टर नहीं हूँ, इसलिए बीमारी की सलाह या दवा नहीं बता सकता। सही इलाज के लिए टोकन लेकर डॉक्टर को दिखाइए।";
+    const bd=BONE.test(t)&&docs.find(x=>/हड्डी|जोड़/.test(x.d));
+    if(bd)m+="\n\nहड्डी और जोड़ की समस्या के लिए "+bd.n+" से मिलिए।";
+    bub(m+"\n\n"+docsTxt(),"bot");return;
+  }
+  if(/डॉक्टर|doctor|समय|टाइम|time|कब बैठ|ओपीडी|opd|timing/.test(t)){bub(docsTxt(),"bot");return}
+  if(/पता|कहाँ|कहां|address|location|लोकेशन|रास्ता/.test(t)){acts(bub(H.address?"अस्पताल का पता: "+H.address:"पता अभी जोड़ा नहीं गया है। कृपया कॉल करके पूछिए।","bot"));return}
+  if(/फोन|नंबर|number|call|कॉल|संपर्क|contact|whatsapp|व्हाट्सऐप/.test(t)){acts(bub(H.phone?"अस्पताल का नंबर: "+H.phone:"नंबर अभी जोड़ा नहीं गया है।","bot"));return}
+  if(/नमस्ते|हेलो|हैलो|hello|hi|धन्यवाद|शुक्रिया|thanks/.test(t)){bub("नमस्ते! बताइए, मैं कैसे मदद करूँ?","bot");return}
+  acts(bub("इसका सही जवाब मेरे पास नहीं है। रिसेप्शन से सीधे बात कीजिए।","bot"));
+}
+function ask(q){q=q.trim();if(!q)return;bub(q,"me");reply(q)}
+$("hgo").onclick=()=>{ask($("hin").value);$("hin").value=""};
+$("hin").onkeydown=e=>{if(e.key==="Enter")$("hgo").click()};
+$("helpBtn").onclick=()=>{$("help").classList.remove("hide");if(!$("hmsg").children.length)bub("नमस्ते! मैं अस्पताल का मदद सहायक हूँ। नीचे से सवाल चुनिए या अपना सवाल लिखिए।","bot")};
+$("hx").onclick=()=>$("help").classList.add("hide");
+$("help").onclick=e=>{if(e.target===$("help"))$("help").classList.add("hide")};
+["सेवाओं की दरें","टोकन कैसे लें?","डॉक्टर कब बैठते हैं?","रिपोर्ट कैसे देखें?","अस्पताल का पता","फ़ोन नंबर","इमरजेंसी"].forEach(c=>{const b=document.createElement("button");b.textContent=c;b.onclick=()=>ask(c);$("hchips").appendChild(b)});
+let SV=[],scat="all";
+const CATS=[["lab","लैब जाँच"],["xray","X-ray"],["consult","डॉक्टर फ़ीस"],["other","अन्य"]];
+const catName=c=>(CATS.find(x=>x[0]==c)||[0,"अन्य"])[1];
+const saveSV=l=>setDoc(fdoc(db,...B,"config","services"),{list:l});
+const SEED=[["lab","CBC (पूरी ख़ून जाँच)"],["lab","हीमोग्लोबिन (Hb)"],["lab","ब्लड शुगर (फास्टिंग)"],["lab","ब्लड शुगर (खाने के बाद)"],["lab","HbA1c"],["lab","लिपिड प्रोफ़ाइल"],["lab","थायरॉइड (TSH)"],["lab","लिवर फंक्शन (LFT)"],["lab","किडनी फंक्शन (KFT)"],["lab","यूरिन जाँच"],["lab","यूरिक एसिड"],["lab","ESR"],["lab","CRP"],["lab","RA फैक्टर"],["lab","विटामिन D"],["lab","विटामिन B12"],["lab","मलेरिया जाँच"],["lab","टाइफॉयड (Widal)"],["lab","डेंगू जाँच"],["xray","X-ray छाती (Chest)"],["xray","X-ray घुटना"],["xray","X-ray कमर (L-S Spine)"],["xray","X-ray गर्दन (C-Spine)"],["xray","X-ray कंधा"],["xray","X-ray हाथ / कलाई"],["xray","X-ray पैर / टखना"],["xray","X-ray कूल्हा (Hip)"],["consult","OPD परामर्श फ़ीस"]];
+const priceTxt=x=>(x.p===null||x.p===undefined||x.p==="")?"संपर्क करें":"₹"+x.p;
+function fillTL(){
+  const nm=TL.map(t=>t.n);
+  SV.filter(x=>x.c=="lab").forEach(x=>{if(!nm.some(y=>y.toLowerCase()==x.n.toLowerCase()))nm.push(x.n)});
+  $("tl").innerHTML="";nm.forEach(v=>{const o=document.createElement("option");o.value=v;$("tl").appendChild(o)});
+}
+onSnapshot(fdoc(db,...B,"config","services"),s=>{SV=s.exists()?s.data().list:[];drawSV();drawSVstaff();fillTL()});
+function drawSV(){
+  const q=$("sq").value.trim().toLowerCase().replace(/\u093C/g,""),c=$("scat");
+  if(!c.children.length)[["all","सभी"],...CATS].forEach(k=>{const b=document.createElement("button");b.textContent=k[1];b.dataset.k=k[0];b.onclick=()=>{scat=k[0];drawSV()};c.appendChild(b)});
+  [...c.children].forEach(b=>b.classList.toggle("on",b.dataset.k==scat));
+  const l=$("svlist");l.innerHTML="";
+  const items=SV.filter(x=>(scat=="all"||x.c==scat)&&(!q||x.n.toLowerCase().replace(/\u093C/g,"").includes(q)));
+  if(!items.length){l.innerHTML='<div class="mute" style="margin-top:8px">अभी कोई सेवा नहीं मिली।</div>';return}
+  items.forEach(x=>{const r=document.createElement("div");r.className="row";const a=document.createElement("span");a.textContent=x.n;const b=document.createElement("b");b.textContent=priceTxt(x);r.append(a,b);l.appendChild(r)});
+}
+$("sq").oninput=drawSV;
+function drawSVstaff(){
+  const l=$("slist");l.innerHTML="";
+  SV.forEach((x,i)=>{
+    const r=document.createElement("div");r.className="row";
+    const a=document.createElement("span");a.style.flex="1";a.textContent=x.n;
+    const m=document.createElement("div");m.className="mute";m.style.fontSize="12px";m.textContent=catName(x.c);a.appendChild(m);
+    const p=document.createElement("input");p.type="number";p.inputMode="numeric";p.value=(x.p===null||x.p===undefined)?"":x.p;p.placeholder="₹";p.style.cssText="width:84px;padding:8px;margin:0 6px";
+    p.onchange=()=>{const v=p.value===""?null:Math.max(0,+p.value);saveSV(SV.map((y,k)=>k==i?{...y,p:v}:y)).catch(()=>alert("नहीं हो पाया"))};
+    const d=document.createElement("button");d.className="no";d.textContent="हटाएँ";d.style.cssText="background:none;border:0;font:inherit;padding:6px";
+    d.onclick=()=>{if(confirm(x.n+" हटाएँ?"))saveSV(SV.filter((y,k)=>k!=i)).catch(()=>alert("नहीं हो पाया"))};
+    r.append(a,p,d);l.appendChild(r);
+  });
+}
+$("sadd").onclick=async()=>{
+  const n=$("sn").value.trim(),pv=$("sp").value;
+  if(!n){$("sn").focus();return}
+  try{await saveSV([...SV,{id:"s"+Date.now().toString(36),c:$("sc").value,n:n,p:pv===""?null:Math.max(0,+pv)}]);$("sn").value="";$("sp").value=""}
+  catch(e){alert("नहीं हो पाया")}
+};
+$("sseed").onclick=async()=>{
+  const have=new Set(SV.map(x=>x.n)),t0=Date.now().toString(36);
+  const add=SEED.filter(k=>!have.has(k[1])).map((k,i)=>({id:"s"+t0+i,c:k[0],n:k[1],p:null}));
+  if(!add.length){alert("ये नाम पहले से जुड़े हैं");return}
+  try{await saveSV([...SV,...add]);alert(add.length+" नाम जुड़ गए। अब हर एक की दर भर दीजिए।")}catch(e){alert("नहीं हो पाया")}
+};
+$("addDept").onclick=async()=>{
+  const t0=Date.now().toString(36);
+  const add=[["लैब (जाँच)","खून, पेशाब आदि की जाँच"],["X-ray","एक्स-रे जाँच"]].filter(k=>!docs.some(x=>x.n==k[0])).map((k,i)=>({n:k[0],d:k[1],days:[0,1,2,3,4,5,6],f:10,t:18,id:"d"+t0+i}));
+  if(!add.length){alert("लैब और X-ray पहले से जुड़े हैं");return}
+  try{await setDoc(fdoc(db,...B,"config","doctors"),{list:[...docs,...add]});alert("जुड़ गए। समय बदलना हो तो सूची में 'बदलें' दबाइए।")}catch(e){alert("नहीं हो पाया")}
+};
+let isAdm=false,unH=null;
+async function access(u){
+  const e=(u.email||"").toLowerCase();
+  try{
+    if((await getDoc(fdocA(db,"admins",e))).exists())return 2;
+    if((await getDoc(fdoc(db,...B,"staff",e))).exists())return 1;
+  }catch(x){}
+  return 0;
+}
+async function mkUser(email,pw){
+  const a2=initializeApp(CFG,"sec"+Date.now()),au=getAuth(a2);
+  try{await createUserWithEmailAndPassword(au,email,pw)}finally{await signOut(au).catch(()=>{})}
+}
+function drawHosp(s){
+  const l=$("hlist");l.innerHTML="";
+  s.docs.forEach(d=>{
+    const h=d.data(),link=location.origin+location.pathname+"?h="+d.id;
+    const r=document.createElement("div");r.className="row";
+    const a=document.createElement("span");a.style.flex="1";a.textContent=h.name+" ("+d.id+")"+(h.active===false?" · बंद":"");
+    const bx=document.createElement("span");
+    const mk=(t,f,c)=>{const b=document.createElement("button");b.textContent=t;b.className=c;b.style.cssText="background:none;border:0;font:inherit;padding:6px";b.onclick=f;bx.appendChild(b)};
+    mk("लिंक भेजें",()=>{window.open("https://wa.me/?text="+encodeURIComponent(h.name+" का OPD app: "+link),"_blank","noopener")},"mute");
+    mk(h.active===false?"चालू करें":"बंद करें",()=>updateDoc(fdocA(db,"hospitals",d.id),{active:h.active===false}).catch(()=>alert("नहीं हो पाया")),"no");
+    r.append(a,bx);l.appendChild(r);
+  });
+  if(!s.docs.length)l.innerHTML='<div class="mute">अभी कोई दूसरा अस्पताल नहीं है।</div>';
+}
+if(HID)onSnapshot(fdocA(db,"hospitals",HID),s=>{
+  const bad=!s.exists()||s.data().active===false;
+  $("gate").classList.toggle("hide",!bad);
+  $("gtext").textContent=!s.exists()?"यह अस्पताल नहीं मिला। लिंक जाँच लीजिए।":"यह सेवा अभी बंद है। कृपया अस्पताल से संपर्क करें।";
+});
+$("sjoin").onclick=async()=>{
+  const em=$("se").value.trim().toLowerCase(),pw=$("spw").value;
+  if(!/^\S+@\S+\.\S+$/.test(em)||pw.length<6){alert("सही ईमेल और 6 या ज़्यादा अक्षर का पासवर्ड भरें");return}
+  $("sjoin").disabled=true;
+  try{
+    let note="";
+    try{await mkUser(em,pw)}catch(e){if(e.code=="auth/email-already-in-use")note=" (यह ईमेल पहले से था: उसी के पासवर्ड से लॉगिन होगा)";else throw e}
+    await setDoc(fdoc(db,...B,"staff",em),{ok:true});
+    alert("स्टाफ़ जुड़ गया"+note);$("se").value="";$("spw").value="";
+  }catch(e){alert("नहीं हो पाया: "+(e.code||""))}
+  $("sjoin").disabled=false;
+};
+$("hadd").onclick=async()=>{
+  const id=$("hi").value.trim().toLowerCase(),nm=$("hn").value.trim(),em=$("he").value.trim().toLowerCase(),pw=$("hp").value;
+  if(!/^[a-z0-9]{3,20}$/.test(id)||id=="adan"||id=="admin"){alert("आईडी 3 से 20 अक्षर की हो: सिर्फ़ अंग्रेज़ी छोटे अक्षर या अंक (adan और admin नहीं)");return}
+  if(!nm||!/^\S+@\S+\.\S+$/.test(em)||pw.length<6){alert("नाम, सही ईमेल और 6 या ज़्यादा अक्षर का पासवर्ड भरें");return}
+  $("hadd").disabled=true;
+  try{
+    if((await getDoc(fdocA(db,"hospitals",id))).exists()){alert("यह आईडी पहले से है");$("hadd").disabled=false;return}
+    let note="";
+    try{await mkUser(em,pw)}catch(e){if(e.code=="auth/email-already-in-use")note=" (यह ईमेल पहले से था: उसी के पासवर्ड से लॉगिन होगा)";else throw e}
+    await setDoc(fdocA(db,"hospitals",id),{name:nm,active:true,at:Date.now()});
+    await setDoc(fdocA(db,"hospitals",id,"staff",em),{ok:true});
+    await setDoc(fdocA(db,"hospitals",id,"config","hospital"),{name:nm,logo:"",phone:"",address:""});
+    alert("अस्पताल जुड़ गया"+note+"\n\nलिंक: "+location.origin+location.pathname+"?h="+id);
+    ["hi","hn","he","hp"].forEach(k=>{$(k).value=""});
+  }catch(e){alert("नहीं हो पाया: "+(e.code||""))}
+  $("hadd").disabled=false;
+};
+let ADS=[],adT=null,adI=0;
+function ytId(u){const m=String(u).match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/);return m?m[1]:""}
+function drawAds(){
+  const box=$("ads"),on=ADS.filter(a=>a.on!==false);
+  box.innerHTML="";clearInterval(adT);
+  const tr=document.createElement("div");tr.className="adtrack";
+  on.forEach(a=>{
+    const sl=document.createElement("div");sl.className="adslide";
+    if(a.type=="yt"&&/^[\w-]{11}$/.test(a.src)){
+      const im=document.createElement("img");im.src="https://img.youtube.com/vi/"+a.src+"/hqdefault.jpg";im.alt="वीडियो";
+      const pb=document.createElement("div");pb.className="adplay";pb.textContent="▶";
+      sl.append(im,pb);
+      sl.onclick=()=>{clearInterval(adT);sl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+a.src+'?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'};
+    }else if(a.type=="img"&&String(a.src).indexOf("data:image/")==0){
+      const im=document.createElement("img");im.src=a.src;im.alt="सूचना";sl.appendChild(im);
+      if(a.link&&/^https?:\/\//.test(a.link)){sl.style.cursor="pointer";sl.onclick=()=>window.open(a.link,"_blank","noopener")}
+    }else return;
+    tr.appendChild(sl);
+  });
+  if(!tr.children.length){box.classList.add("hide");return}
+  box.classList.remove("hide");box.appendChild(tr);
+  if(tr.children.length>1){adI=0;adT=setInterval(()=>{adI=(adI+1)%tr.children.length;tr.scrollTo({left:tr.clientWidth*adI,behavior:"smooth"})},5000)}
+}
+function drawAdList(){
+  const l=$("alist");l.innerHTML="";
+  ADS.forEach(a=>{
+    const r=document.createElement("div");r.className="row";
+    const t=document.createElement("span");t.style.cssText="display:flex;align-items:center;gap:8px";
+    const th=document.createElement("img");th.style.cssText="width:44px;height:44px;object-fit:cover;border-radius:8px";
+    th.src=a.type=="yt"?"https://img.youtube.com/vi/"+a.src+"/default.jpg":(String(a.src).indexOf("data:image/")==0?a.src:"");
+    const tx=document.createElement("span");tx.className="mute";tx.textContent=(a.type=="yt"?"वीडियो":"फ़ोटो")+(a.on===false?" · बंद":"");
+    t.append(th,tx);
+    const bx=document.createElement("span");
+    const tg=document.createElement("button");tg.className="mute";tg.textContent=a.on===false?"चालू करें":"बंद करें";
+    tg.onclick=()=>updateDoc(fdoc(db,...B,"config",a.id),{on:a.on===false}).catch(()=>alert("नहीं हो पाया"));
+    const d=document.createElement("button");d.className="no";d.textContent="हटाएँ";
+    d.onclick=()=>{if(confirm("यह विज्ञापन हटाएँ?"))deleteDoc(fdoc(db,...B,"config",a.id)).catch(()=>alert("नहीं हो पाया"))};
+    [tg,d].forEach(b=>{b.style.cssText="background:none;border:0;font:inherit;padding:6px"});
+    bx.append(tg,d);r.append(t,bx);l.appendChild(r);
+  });
+}
+onSnapshot(collection(db,...B,"config"),s=>{
+  ADS=s.docs.filter(d=>d.id.indexOf("ad_")==0).map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.at-a.at);
+  drawAds();drawAdList();
+});
+$("aadd").onclick=async()=>{
+  const f=$("af").files[0],y=ytId($("ay").value.trim()),lk=$("al").value.trim();
+  if(!f&&!y){alert("फ़ोटो चुनिए या YouTube का सही लिंक डालिए");return}
+  if(lk&&!/^https?:\/\//.test(lk)){alert("लिंक https:// से शुरू होना चाहिए");return}
+  $("aadd").disabled=true;
+  try{
+    const a={type:f?"img":"yt",src:f?await shrink(f,1000,450000):y,link:lk,on:true,at:Date.now()};
+    await setDoc(fdoc(db,...B,"config","ad_"+Date.now().toString(36)),a);
+    $("af").value="";$("ay").value="";$("al").value="";
+  }catch(e){alert("जोड़ नहीं पाए। दूसरी फ़ोटो से या दोबारा कोशिश करें।")}
+  $("aadd").disabled=false;
+};
+let editIdx=-1,TL=[],hLogo="",H={};
+function renderDocList(){
+  const l=$("dlist");if(!l)return;l.innerHTML="";
+  docs.forEach((x,i)=>{
+    const r=document.createElement("div");r.className="row";
+    const sp=document.createElement("span");sp.textContent=x.n+" · "+x.d;
+    const bx=document.createElement("span");
+    const e=document.createElement("button");e.className="mute";e.textContent="बदलें";e.onclick=()=>editDoc(i);
+    const d=document.createElement("button");d.className="no";d.textContent="हटाएँ";d.onclick=()=>delDoc(i);
+    [e,d].forEach(b=>{b.style.cssText="background:none;border:0;font:inherit;padding:6px"});
+    bx.append(e,d);r.append(sp,bx);l.appendChild(r);
+  });
+}
+function editDoc(i){
+  const x=docs[i];editIdx=i;
+  $("dn").value=x.n;$("dd").value=x.d;$("hf").value=x.f;$("ht").value=x.t;
+  $("dd7").querySelectorAll("input").forEach(c=>{c.checked=x.days.includes(+c.value)});
+  $("dform").textContent="डॉक्टर की जानकारी बदलें";$("addDoc").textContent="बदलाव सेव करें";
+  $("dn").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function resetDocForm(){
+  editIdx=-1;$("dn").value="";$("dd").value="";$("hf").value=10;$("ht").value=18;
+  $("dd7").querySelectorAll("input").forEach(c=>{c.checked=false});
+  $("dform").textContent="नया डॉक्टर जोड़ें";$("addDoc").textContent="डॉक्टर जोड़ें";
+}
+async function delDoc(i){
+  if(!confirm(docs[i].n+" को सूची से हटाएँ?"))return;
+  try{await setDoc(fdoc(db,...B,"config","doctors"),{list:docs.filter((x,k)=>k!=i)});if(editIdx>=0)resetDocForm()}catch(e){alert("नहीं हो पाया")}
+}
+onSnapshot(fdoc(db,...B,"config","tests"),s=>{
+  TL=s.exists()?s.data().list:[];fillTL();
+});
+onSnapshot(fdoc(db,...B,"config","hospital"),s=>{
+  const h=s.exists()?s.data():{},nm=h.name||DEFNAME;hLogo=h.logo||"";H=h;if(document.activeElement!==$("hph"))$("hph").value=h.phone||"";if(document.activeElement!==$("hadr"))$("hadr").value=h.address||"";
+  $("bn").textContent=nm;document.title=nm+" · OPD टोकन";
+  if(document.activeElement!==$("hname"))$("hname").value=nm;
+  const has=hLogo.indexOf("data:image/")==0;
+  if(has)$("bimg").src=hLogo;
+  $("bimg").classList.toggle("hide",!has);$("bsvg").classList.toggle("hide",has);
+});
+function toLogo(f){return new Promise((ok,no)=>{
+  const im=new Image(),u=URL.createObjectURL(f);
+  im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=192;
+    const m=Math.min(im.width,im.height);
+    c.getContext("2d").drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,192,192);
+    URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",.85))};
+  im.onerror=no;im.src=u;
+})}
+$("hsave").onclick=async()=>{
+  const nm=$("hname").value.trim()||DEFNAME,f=$("hlogo").files[0];
+  try{if(f)hLogo=await toLogo(f);const ph=$("hph").value.replace(/\D/g,"");if(ph&&ph.length!=10){alert("नंबर 10 अंकों का हो");return}
+    await setDoc(fdoc(db,...B,"config","hospital"),{name:nm,logo:hLogo,phone:ph,address:$("hadr").value.trim()},{merge:true});$("hlogo").value="";alert("सेव हो गया")}
+  catch(e){alert("नहीं हो पाया")}
+};
+$("hlx").onclick=async()=>{
+  try{hLogo="";await setDoc(fdoc(db,...B,"config","hospital"),{name:$("hname").value.trim()||DEFNAME,logo:""},{merge:true})}catch(e){alert("नहीं हो पाया")}
+};
+$("clean").onclick=async()=>{
+  if(!confirm("पुरानी तारीखों के टोकन से नाम और फ़ोन नंबर मिटा दें?"))return;
+  try{let c=0;
+    for(const x of docs){const sn=await getDocs(collection(db,...B,"q",x.id,"pt")),b=writeBatch(db);
+      sn.forEach(d=>{if(d.data().day!==today()){b.delete(d.ref);c++}});await b.commit()}
+    alert(c+" पुराने टोकन मिटाए गए");
+  }catch(e){alert("नहीं हो पाया")}
+};
+$("rlist").onclick=async e=>{
+  const id=e.target.dataset&&e.target.dataset.del;
+  if(id&&confirm("यह रिपोर्ट हमेशा के लिए हटाएँ?")){try{await deleteDoc(fdoc(db,...B,"reports",id))}catch(x){alert("नहीं हो पाया")}}
+};
+const tab=n=>{
+  ["patient","desk","rep","sv"].forEach((id,i)=>$(id).classList.toggle("hide",i!=n));
+  ["tp","tr","tx","ts"].forEach((id,i)=>$(id).classList.toggle("on",i==n));
+  $("qwrap").classList.toggle("hide",n>=2);
+};
+$("tp").onclick=()=>tab(0);$("tr").onclick=()=>tab(1);$("tx").onclick=()=>tab(2);$("ts").onclick=()=>tab(3);
+
+const AL="23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+function mkCode(){let s="";const a=new Uint32Array(8);crypto.getRandomValues(a);a.forEach(x=>{s+=AL[x%32]});return s}
+function wa(p,code){return "https://wa.me/91"+String(p).replace(/\D/g,"")+"?text="+encodeURIComponent((H.name||DEFNAME)+": आपकी रिपोर्ट तैयार है।\nरिपोर्ट कोड: "+code+"\nदेखने के लिए यह लिंक खोलिए और 'रिपोर्ट' टैब चुनिए:\n"+location.origin+location.pathname+location.search)}
+function addRow(){
+  const r=document.createElement("div");r.className="trow";
+  ["जाँच (जैसे Hb)","नतीजा","सामान्य सीमा"].forEach((t,k)=>{const i=document.createElement("input");i.placeholder=t;i.maxLength=40;
+    if(k==0){i.setAttribute("list","tl");i.onchange=()=>{const z=TL.find(q=>q.n.toLowerCase()==i.value.trim().toLowerCase()),rg=r.children[2];if(z&&z.r&&rg&&!rg.value)rg.value=z.r}}
+    r.appendChild(i)});
+  $("trows").appendChild(r);
+}
+addRow();$("addRow").onclick=addRow;
+function shrink(file,W=1100,L=700000){return new Promise((ok,no)=>{
+  const im=new Image(),u=URL.createObjectURL(file);
+  im.onload=()=>{
+    const sc=Math.min(1,W/im.width),c=document.createElement("canvas");
+    c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    let q=.7,d=c.toDataURL("image/jpeg",q);
+    while(d.length>L&&q>.3){q-=.1;d=c.toDataURL("image/jpeg",q)}
+    URL.revokeObjectURL(u);d.length>L*1.3?no():ok(d);
+  };
+  im.onerror=no;im.src=u;
+})}
+$("rsave").onclick=async()=>{
+  const n=$("rn").value.trim(),p=$("rp").value.trim();
+  if(!n){$("rn").focus();return}
+  if(!/^\d{10}$/.test(p)){$("rp").focus();alert("10 अंकों का फ़ोन नंबर लिखें");return}
+  const tests=[...$("trows").children].map(r=>{const i=r.querySelectorAll("input");return{n:i[0].value.trim(),v:i[1].value.trim(),r:i[2].value.trim()}}).filter(t=>t.n&&t.v);
+  const f=$("rf").files[0];
+  if(!tests.length&&!f){alert("नतीजे या फ़ोटो में से कुछ तो डालें");return}
+  $("rsave").disabled=true;
+  try{
+    const img=f?await shrink(f):null;
+    const code=mkCode();
+    await setDoc(fdoc(db,...B,"reports",code),{name:n,ph:p,tests:tests,img:img,date:today(),at:Date.now()});
+    const nl=[...TL];tests.forEach(t=>{if(t.r&&!nl.some(z=>z.n.toLowerCase()==t.n.toLowerCase()))nl.push({n:t.n,r:t.r})});
+    if(nl.length!=TL.length)setDoc(fdoc(db,...B,"config","tests"),{list:nl}).catch(()=>{});
+    $("rdone").innerHTML='<div class="card mine" style="margin-top:12px"><div class="mute">रिपोर्ट कोड (मरीज़ को दें)</div><div class="num" style="letter-spacing:3px">'+code+'</div><a class="btn alt" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="'+wa(p,code)+'">WhatsApp पर भेजें</a></div>';
+    $("rn").value="";$("rp").value="";$("rf").value="";$("trows").innerHTML="";addRow();
+  }catch(e){alert("रिपोर्ट सेव नहीं हो पाई। फ़ोटो छोटी करके या दोबारा कोशिश करें।")}
+  $("rsave").disabled=false;
+};
+let unR=null;
+onAuthStateChanged(auth,u=>{
+  if(unR){unR();unR=null}
+  if(u)unR=onSnapshot(query(collection(db,...B,"reports"),orderBy("at","desc"),limit(10)),s=>{
+    $("rlist").innerHTML=s.docs.length?s.docs.map(x=>{const d=x.data();return '<div class="row"><span>'+esc(d.name)+' · '+esc(d.date)+'<br><span class="mute">कोड: '+esc(x.id)+'</span></span><a class="mute" target="_blank" rel="noopener" href="'+wa(d.ph,x.id)+'">WhatsApp</a> <button class="no" data-del="'+esc(x.id)+'" style="background:none;border:0;font:inherit">हटाएँ</button></div>'}).join(""):'<div class="mute">अभी कोई रिपोर्ट नहीं।</div>';
+  });
+});
+$("rview").onclick=async()=>{
+  const p=$("vp").value.trim(),c=$("vc").value.trim().toUpperCase().replace(/[^A-Z0-9]/g,""),o=$("rout");
+  o.innerHTML="";
+  if(!/^\d{10}$/.test(p)||c.length!=8){o.innerHTML='<div class="no">फ़ोन नंबर और 8 अक्षर का कोड सही लिखें।</div>';return}
+  try{
+    const s=await getDoc(fdoc(db,...B,"reports",c));
+    if(!s.exists()||s.data().ph!==p){o.innerHTML='<div class="no">फ़ोन नंबर या कोड गलत है।</div>';return}
+    const d=s.data(),card=document.createElement("div");card.className="card";
+    let h='<b>'+esc(d.name)+'</b><div class="mute">तारीख: '+esc(d.date)+'</div>';
+    (d.tests||[]).forEach(t=>{h+='<div class="row"><span>'+esc(t.n)+(t.r?'<br><span class="mute">सामान्य: '+esc(t.r)+'</span>':'')+'</span><b>'+esc(t.v)+'</b></div>'});
+    card.innerHTML=h;
+    if(d.img&&d.img.indexOf("data:image/jpeg")==0){const im=document.createElement("img");im.src=d.img;im.alt="रिपोर्ट की फ़ोटो";im.style.cssText="width:100%;border-radius:10px;margin-top:10px";card.appendChild(im)}
+    o.appendChild(card);
+  }catch(e){o.innerHTML='<div class="no">रिपोर्ट नहीं खुल पाई। इंटरनेट देखकर दोबारा कोशिश करें।</div>'}
+};
+</script>
+</body>
+</html>
