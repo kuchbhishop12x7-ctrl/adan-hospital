@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E7C7B">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Adan Hospital · OPD टोकन</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&display=swap">
 <style>
@@ -241,6 +245,7 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(-
   </div>
 </div>
 
+<script>if("serviceWorker" in navigator)window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})</script>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
 import {getFirestore,doc as fdoc,doc as fdocA,collection,collection as collA,query,orderBy,limit,getDoc,deleteDoc,onSnapshot,runTransaction,setDoc,updateDoc,getDocs,writeBatch} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
